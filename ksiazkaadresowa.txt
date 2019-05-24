@@ -1,0 +1,16 @@
+1|Janko|Muzykant|333 222 111|jm@gmail.com|Bajkowo 1, 00-000 Bajkolandia|
+2|Jasio|Stasio|333 222 111|js@gmail.com|Bajkowo 2, 00-000 Bajkolandia|
+3|Janek|Franek|333 222 111|jf@gmail.com|Bajkowa 3, 00-000 Bajkolandia|
+4|Grzegorz|Soplica|333 222 111|gs@gmail.com|Bajkowa 4, 00-000 Bajkolandia|
+5|Jacek|Soplica|333 222 111|js@gmail.com|Bajkowa 5, 00-000 Bajkolandia|
+6|Adam|Zonek|333 222 111|az@gmail.com|Bajkowa 6, 00-000 Bajkolandia|
+7|Adam|Janos|333 222 111|aj@gmail.com|Bajkowa 7, 00-000 Bajkolandia|
+8|Tomek|Jelonek|333 222 111|tj@gmail.com|Bajkowa 8, 00-000 Bajkolandia|
+9|Franek|Rybak|333 222 111|fr@gmail.com|Bajkowa 9, 00-000 Bajkolandia|
+10|Magda|Modnicka|333 222 111|mm@gmail.com|Bajkowa 10, 00-000 Bajkolandia|
+11|Jerzy|Wierzy|333 222 111|jw@gmail.com|Bajkowa 11, 00-000 Bajkolandia|
+12|Rafal|Robin|333 222 111|rr@gmail.com|Bajkowa 12, 00-000 Bajkolandia|
+13|Karol|Krety|333 222 111|kk@gmail.com|Bajkowa 13, 00-000 Bajkolandia|
+14|Radosˆaw|Andrzej|333 222 111|ra@gmail.com|Bajkowa 14, 00-000 Bajkolandia|
+15|Janek|Ziobro|333 222 111|jz@gmail.com|Bajkowa 15, 00-000 Bajkolandia|
+16|Franek|Maniek|333 222 111|fm@gmail.com|Bajkowa 16, 00-000 Bajkolandia|

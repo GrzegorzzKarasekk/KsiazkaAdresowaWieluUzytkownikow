@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1558712020 source:c:\users\greegooo\documents\codeblocks\ksiazkanawektorach\main.cpp
+	<iostream>
+	<windows.h>
+	<conio.h>
+	<fstream>
+	<vector>
+	<algorithm>
+	<cstdio>
+
