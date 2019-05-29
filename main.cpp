@@ -13,6 +13,12 @@ struct Osoba
     string imie, nazwisko, numerTelefonu, email, adres;
 };
 
+struct Uzytkownik
+{
+    int idUzytkownika;
+    string login, haslo;
+};
+
 string wczytajLinie()
 {
     string wejscie = "";
@@ -47,6 +53,27 @@ void dopiszOsobeDoPlikuTXT(Osoba dodanaOsoba)
     else
     {
         cout << "Nie udalo sie dodac osoby do ksiazki adresowej" << endl;
+        Sleep(1000);
+    }
+}
+
+void dopiszUzytkownikaDoPlikuTXT(Uzytkownik dodanyUzytkownik)
+{
+    fstream plik;
+    plik.open("Uzytkownicy.txt", ios::out | ios::app);
+
+    if (plik.good() == true)
+    {
+        plik << dodanyUzytkownik.idUzytkownika << "|";
+        plik << dodanyUzytkownik.login << "|";
+        plik << dodanyUzytkownik.haslo << "|"<<endl;
+        plik.close();
+        cout<<"Konto zostalo zalozone"<<endl;
+        Sleep(1000);
+    }
+    else
+    {
+        cout << "Nie udalo sie utworzyć konta" << endl;
         Sleep(1000);
     }
 }
@@ -132,6 +159,40 @@ Osoba pobierzDaneOsoby(string daneJednejOsobyOddzielonePionowymiKreskami)
     }
     return dodanaOsoba;
 }
+
+Uzytkownik pobierzDaneUzytkownika(string daneJednegoUzytkownikaOddzielonePionowymiKreskami)
+{
+    Uzytkownik dodanyUzytkownik;
+    string pojedynczaDanaUzytkownika = "";
+    int numerPojedynczegoUzytkownika = 1;
+
+    for (int pozycjaZnaku = 0; pozycjaZnaku < daneJednegoUzytkownikaOddzielonePionowymiKreskami.length(); pozycjaZnaku++)
+    {
+        if (daneJednegoUzytkownikaOddzielonePionowymiKreskami[pozycjaZnaku] != '|')
+        {
+            pojedynczaDanaUzytkownika += daneJednegoUzytkownikaOddzielonePionowymiKreskami[pozycjaZnaku];
+        }
+        else
+        {
+            switch(numerPojedynczegoUzytkownika)
+            {
+            case 1:
+                dodanyUzytkownik.idUzytkownika = atoi(pojedynczaDanaUzytkownika.c_str());
+                break;
+            case 2:
+                dodanyUzytkownik.login = pojedynczaDanaUzytkownika;
+                break;
+            case 3:
+                dodanyUzytkownik.haslo = pojedynczaDanaUzytkownika;
+                break;
+            }
+            pojedynczaDanaUzytkownika = "";
+            numerPojedynczegoUzytkownika++;
+        }
+    }
+    return dodanyUzytkownik;
+}
+
 
 void wczytajOsobeZPliku(vector<Osoba> &osoby)
 {
@@ -274,9 +335,9 @@ void usuwanieZapisanychOsob(vector <Osoba> &osoby)
                 return void();
         }
     }
-        cout << "Uzytkownik nie istnieje!!!";
-        Sleep(1000);
-        return void();
+    cout << "Uzytkownik nie istnieje!!!";
+    Sleep(1000);
+    return void();
 }
 
 void edytowanieZapisanychOsob(vector <Osoba> &osoby)
@@ -291,7 +352,7 @@ void edytowanieZapisanychOsob(vector <Osoba> &osoby)
     cout << "Podaj id uzytkownika ktorego chcesz zmodyfikowac: ";
     cin >> id;
 
-   for(vector<Osoba>::iterator i = osoby.begin(); i < osoby.end(); i++)
+    for(vector<Osoba>::iterator i = osoby.begin(); i < osoby.end(); i++)
     {
         if(i -> id == id)
         {
@@ -412,15 +473,143 @@ void edytowanieZapisanychOsob(vector <Osoba> &osoby)
             }
         }
     }
-        cout << "Uzytkownik nie istnieje!!!";
+    cout << "Uzytkownik nie istnieje!!!";
+    Sleep(1000);
+    return void();
+}
+
+string sprawdzanieDostepnosciLoginuUzytkownika(vector <Uzytkownik> &uzytkownicy)
+{
+
+    string login;
+    cout << "Podaj Login uzytkownika: ";
+    cin.sync();
+    login = wczytajLinie();
+
+    for(vector<Uzytkownik>::iterator i = uzytkownicy.begin(); i < uzytkownicy.end(); i++)
+    {
+        if(i->login == login)
+        {
+            cout <<"<<<" << i->login << ">>>"<< endl;
+            cout << "Taki uzytkownik istnieje!!!" << endl;
+            cout << "Wpisz inna nazwe uzytkownika: ";
+            cin >> login;
+            i = uzytkownicy.begin();
+        }
+    }
+    return login;
+}
+
+string wprowadzenieHasla()
+{
+    string haslo,haslo2;
+    cout << "Podaj haslo uzytkownika: ";
+    cin.sync();
+    haslo = wczytajLinie();
+
+    cout << "Ponownie podaj haslo uzytkownika: ";
+    cin.sync();
+    haslo2 = wczytajLinie();
+
+    if (haslo2 != haslo)
+    {
+        cout << "Podane hasła różnią się od siebie!!! Powtórz operację!!!" << endl;
         Sleep(1000);
-        return void();
+        wprowadzenieHasla();
+    }
+    else
+        return haslo;
+}
+
+void rejestracjaUzytkownikow(vector <Uzytkownik> &uzytkownicy)
+{
+    Uzytkownik dodanyUzytkownik;
+    system("cls");
+    cout << ">>> REJESTRACJA NOWEGO UZYTKOWNIKA <<<" << endl << endl;
+
+    if (uzytkownicy.empty() == true)
+    {
+        dodanyUzytkownik.idUzytkownika = 1;
+    }
+    else
+    {
+        dodanyUzytkownik.idUzytkownika = uzytkownicy.back().idUzytkownika + 1;
+    }
+
+    //SPRAWDZENIECZU UZYTKOWNIK ISTNIEJE!!!
+    dodanyUzytkownik.login = sprawdzanieDostepnosciLoginuUzytkownika(uzytkownicy);
+
+    //SPRAWDZENIE CZY Hasło jest wpisane poprawnie (2x) !!!
+    dodanyUzytkownik.haslo = wprowadzenieHasla();
+
+    uzytkownicy.push_back(dodanyUzytkownik);
+
+    dopiszUzytkownikaDoPlikuTXT(dodanyUzytkownik);
+}
+
+void wczytajUzytkownikaZPliku(vector <Uzytkownik> &uzytkownicy)
+{
+    Uzytkownik dodanyUzytkownik;
+
+    string daneJednegoUzytkownikaOddzielonePionowymiKreskami = "";
+    ///UWAGA CZYSZCZENIE CAŁEGO WEKTORA
+    uzytkownicy.clear();
+
+    fstream plikTekstowy;
+    plikTekstowy.open("uzytkownicy.txt", ios::in);
+
+    if (plikTekstowy.good() == false)
+    {
+        cout << "Plik nie istnieje!!!";
+        Sleep(3000);
+    }
+
+    if (plikTekstowy.good() == true)
+    {
+        while (getline(plikTekstowy, daneJednegoUzytkownikaOddzielonePionowymiKreskami))
+        {
+            dodanyUzytkownik = pobierzDaneUzytkownika(daneJednegoUzytkownikaOddzielonePionowymiKreskami);
+
+            uzytkownicy.push_back(dodanyUzytkownik);
+        }
+        plikTekstowy.close();
+    }
 }
 
 int main()
 {
     vector <Osoba> osoby;
+    vector <Uzytkownik> uzytkownicy;
+
+    wczytajUzytkownikaZPliku(uzytkownicy);
     char wybor;
+    while (true)
+    {
+        system("cls");
+
+        cout << "1.Zaloguj uzytkownika" << endl;
+        cout << "2.Rejestracja uzytkownika" << endl;
+        cout << "9.Zakoncz program" << endl;
+        cin >>wybor;
+
+        switch(wybor)
+        {
+        case '1':
+        {
+            ;//logowanieUzytkownika(uzytkownicy);
+            break;
+        }
+        case '2':
+        {
+            rejestracjaUzytkownikow(uzytkownicy);
+            break;
+        }
+        case '9':
+        {
+            exit(0);
+        }
+        }
+    }
     wczytajOsobeZPliku(osoby);
     while(true)
     {
