@@ -500,6 +500,24 @@ string sprawdzanieDostepnosciLoginuUzytkownika(vector <Uzytkownik> &uzytkownicy)
     return login;
 }
 
+bool sprawdzanieObecnosciLoginuUzytkownikaWBazie(vector <Uzytkownik> &uzytkownicy, string login)
+{
+
+    for(vector<Uzytkownik>::iterator i = uzytkownicy.begin(); i < uzytkownicy.end(); i++)
+    {
+        if(i->login == login)
+        {
+            return true;
+
+        }
+    }
+    cout <<"<<" << login << ">>"<< endl;
+    cout << "Taki uzytkownik nie istnieje!!!" << endl;
+    cout << "Sprawdz poprawnosc nazwy uzytkownika, lub stworz nowe konto.";
+    Sleep(3000);
+    return false;
+}
+
 string wprowadzenieHasla()
 {
     string haslo,haslo2;
@@ -576,52 +594,24 @@ void wczytajUzytkownikaZPliku(vector <Uzytkownik> &uzytkownicy)
     }
 }
 
-int main()
+void wczytajOknoLogowania()
 {
     vector <Osoba> osoby;
-    vector <Uzytkownik> uzytkownicy;
-
-    wczytajUzytkownikaZPliku(uzytkownicy);
-    char wybor;
-    while (true)
-    {
-        system("cls");
-
-        cout << "1.Zaloguj uzytkownika" << endl;
-        cout << "2.Rejestracja uzytkownika" << endl;
-        cout << "9.Zakoncz program" << endl;
-        cin >>wybor;
-
-        switch(wybor)
-        {
-        case '1':
-        {
-            ;//logowanieUzytkownika(uzytkownicy);
-            break;
-        }
-        case '2':
-        {
-            rejestracjaUzytkownikow(uzytkownicy);
-            break;
-        }
-        case '9':
-        {
-            exit(0);
-        }
-        }
-    }
     wczytajOsobeZPliku(osoby);
+    char wybor;
+
     while(true)
     {
-
         system("cls");
+        cout << ">>> MENU UZYTKOWNIKA <<<" << endl;
         cout << "1.Dodaj osobe" << endl;
         cout << "2.Wyszukaj osobe po imieniu" << endl;
         cout << "3.Wyszukaj osobe po nazwisku" << endl;
         cout << "4.Wyswietl wszystkich zapisane osoby" << endl;
         cout << "5.Usun osoby" << endl;
         cout << "6.Edytuj osoby" << endl;
-        cout << "9.Zakoncz program" << endl;
+        cout << "7.Zmien haslo" << endl;
+        cout << "9.Wyloguj" << endl;
 
         cin >> wybor;
         switch(wybor)
@@ -662,10 +652,90 @@ int main()
         }
         case '9':
         {
-            exit(0);
+            return void();
         }
         }
 
+    }
+
+}
+string sprawdzaniehasla(vector <Uzytkownik> &uzytkownicy, string login, string haslo)
+{
+    for(vector<Uzytkownik>::iterator i = uzytkownicy.begin(); i < uzytkownicy.end(); i++)
+    {
+        if(i->login == login && i->haslo == haslo)
+        {
+            return i->haslo;
+        }
+    }
+}
+
+void logowanieUzytkownika (vector <Uzytkownik> &uzytkownicy)
+{
+    string login, haslo;
+    system("cls");
+    cout << ">>> LOGOWANIE UZYTKOWNIKA <<<" << endl;
+
+    cout << "Podaj login: ";
+    cin.sync();
+    login = wczytajLinie();
+
+    if (sprawdzanieObecnosciLoginuUzytkownikaWBazie(uzytkownicy, login) == false)
+    {
+        return void();
+    }
+
+    for (int proby = 0; proby < 3; proby ++)
+    {
+        cout<<"Podaj haslo. Pozostalo prob " << 3 - proby <<": " ;
+        cin.sync();
+        haslo = wczytajLinie();
+        if (haslo == sprawdzaniehasla(uzytkownicy,login, haslo))
+        {
+            cout << login <<" zalogowales sie!!!" << endl;
+            Sleep(1000);
+            wczytajOknoLogowania();
+        }
+    }
+    cout<<"Podales 3 razy niepoprawne haslo. Poczekaj 5 sekund przed kolejna proba"<<endl;
+    Sleep(5000);
+    return void();
+}
+
+int main()
+{
+
+    vector <Uzytkownik> uzytkownicy;
+
+    wczytajUzytkownikaZPliku(uzytkownicy);
+
+    char wybor;
+    while (true)
+    {
+        system("cls");
+
+        cout << "1.Zaloguj uzytkownika" << endl;
+        cout << "2.Rejestracja uzytkownika" << endl;
+        cout << "9.Zakoncz program" << endl;
+        cin >>wybor;
+
+        switch(wybor)
+        {
+        case '1':
+        {
+            logowanieUzytkownika(uzytkownicy);
+            break;
+        }
+        case '2':
+        {
+            rejestracjaUzytkownikow(uzytkownicy);
+            break;
+        }
+        case '9':
+        {
+            exit(0);
+        }
+        }
     }
 
     return 0;
