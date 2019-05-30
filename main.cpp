@@ -511,10 +511,11 @@ bool sprawdzanieObecnosciLoginuUzytkownikaWBazie(vector <Uzytkownik> &uzytkownic
 
         }
     }
+    system ("cls");
     cout <<"<<" << login << ">>"<< endl;
     cout << "Taki uzytkownik nie istnieje!!!" << endl;
     cout << "Sprawdz poprawnosc nazwy uzytkownika, lub stworz nowe konto.";
-    Sleep(3000);
+    Sleep(5000);
     return false;
 }
 
@@ -673,9 +674,6 @@ string sprawdzaniehasla(vector <Uzytkownik> &uzytkownicy, string login, string h
 void logowanieUzytkownika (vector <Uzytkownik> &uzytkownicy)
 {
     string login, haslo;
-    system("cls");
-    cout << ">>> LOGOWANIE UZYTKOWNIKA <<<" << endl;
-
     cout << "Podaj login: ";
     cin.sync();
     login = wczytajLinie();
@@ -695,6 +693,7 @@ void logowanieUzytkownika (vector <Uzytkownik> &uzytkownicy)
             cout << login <<" zalogowales sie!!!" << endl;
             Sleep(1000);
             wczytajOknoLogowania();
+            return void();
         }
     }
     cout<<"Podales 3 razy niepoprawne haslo. Poczekaj 5 sekund przed kolejna proba"<<endl;
@@ -702,21 +701,15 @@ void logowanieUzytkownika (vector <Uzytkownik> &uzytkownicy)
     return void();
 }
 
-int main()
+void operacjaLogowania (vector <Uzytkownik> &uzytkownicy)
 {
-
-    vector <Uzytkownik> uzytkownicy;
-
-    wczytajUzytkownikaZPliku(uzytkownicy);
-
     char wybor;
     while (true)
     {
         system("cls");
-
+        cout << ">>> LOGOWANIE UZYTKOWNIKA <<<" << endl;
         cout << "1.Zaloguj uzytkownika" << endl;
-        cout << "2.Rejestracja uzytkownika" << endl;
-        cout << "9.Zakoncz program" << endl;
+        cout << "9.Wroc do menu glownego" << endl;
         cin >>wybor;
 
         switch(wybor)
@@ -726,17 +719,49 @@ int main()
             logowanieUzytkownika(uzytkownicy);
             break;
         }
-        case '2':
-        {
-            rejestracjaUzytkownikow(uzytkownicy);
-            break;
-        }
         case '9':
         {
-            exit(0);
+            return void();
         }
         }
     }
-
-    return 0;
 }
+
+    int main()
+    {
+
+        vector <Uzytkownik> uzytkownicy;
+
+        wczytajUzytkownikaZPliku(uzytkownicy);
+
+        char wybor;
+        while (true)
+        {
+            system("cls");
+
+            cout << "1.Zaloguj uzytkownika" << endl;
+            cout << "2.Rejestracja uzytkownika" << endl;
+            cout << "9.Zakoncz program" << endl;
+            cin >>wybor;
+
+            switch(wybor)
+            {
+            case '1':
+            {
+                operacjaLogowania(uzytkownicy);
+                break;
+            }
+            case '2':
+            {
+                rejestracjaUzytkownikow(uzytkownicy);
+                break;
+            }
+            case '9':
+            {
+                exit(0);
+            }
+            }
+        }
+
+        return 0;
+    }
