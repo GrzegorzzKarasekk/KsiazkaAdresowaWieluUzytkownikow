@@ -617,7 +617,7 @@ void wyszukiwanieOsobyPoImieniu(vector <Adresat> &adresaci)
     {
         if(i->imie == imie)
         {
-            cout << i->id << " "<<i->imie << " " << i->nazwisko << " " << i->numerTelefonu << " " << i->email <<" " <<i->adres <<" " << endl;
+            cout << i->id << " "<< i->imie << " " << i->nazwisko << " " << i->numerTelefonu << " " << i->email <<" " <<i->adres <<" " << endl;
         }
     }
     cout << "Aby zakonczyc wcisnij dowolny klawisz... ";
@@ -640,7 +640,7 @@ void wyszukiwanieOsobyPoNazwisku(vector <Adresat> &adresaci)
     {
         if(i->nazwisko == nazwisko)
         {
-            cout << i->id << " " << i->nazwisko << " " << i->numerTelefonu << " " << i->email <<" " <<i->adres <<" " << endl;
+            cout << i->id << " " <<  i->imie << " " << i->nazwisko << " " << i->numerTelefonu << " " << i->email <<" " <<i->adres <<" " << endl;
         }
     }
     cout << "Aby zakonczyc wcisnij dowolny klawisz... ";
