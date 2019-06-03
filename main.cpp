@@ -672,7 +672,7 @@ void czyszczeniePlikuPrzedPonownymZapisem(vector <Osoba> &osoby)
         plik.close();
     }
 }
-
+/*
 void czyszczeniePlikuUzytkownikowPrzedPonownymZapisem(vector <Uzytkownik> &uzytkownicy)
 {
     int i = 0;
@@ -692,6 +692,7 @@ void czyszczeniePlikuUzytkownikowPrzedPonownymZapisem(vector <Uzytkownik> &uzytk
         plik.close();
     }
 }
+*/
 
 bool sprawdzanieAdresataDlaDanegoUzytkownika(vector<Adresat> &adresaci, int id)
 {
@@ -779,7 +780,7 @@ void edytowanieZapisanychOsob(vector <Osoba> &osoby, vector<Adresat> &adresaci)
 
     return void();
 }
-/////////////////////////////////////////////////
+
 void edytowanieHaslaUzytkownika(vector <Uzytkownik> uzytkownicy, int idUzytkownika)
 {
     Uzytkownik dodanyUzytkownik;
@@ -813,8 +814,7 @@ void edytowanieHaslaUzytkownika(vector <Uzytkownik> uzytkownicy, int idUzytkowni
     }
     else
     {
-
-        cout << "Podales bledne haslo sprobuj ponownie!!!";
+        cout << "Podales bledne haslo, sprobuj ponownie!!!";
         Sleep(1000);
     }
     return void();
@@ -959,7 +959,7 @@ void wczytajOknoLogowania(int idUzytkownika, string login)
         case '7':
         {
             edytowanieHaslaUzytkownika(uzytkownicy, idUzytkownika);
-            wczytajOsobyUzytkownikaZPliku(adresaci, idUzytkownika);
+            wczytajUzytkownikaZPliku(uzytkownicy);
             break;
         }
         case '9':

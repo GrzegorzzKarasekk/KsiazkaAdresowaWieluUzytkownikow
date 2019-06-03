@@ -8,3 +8,5 @@
 9|3|Grzegorz|Brzeczyszczykiewicz|333 222 111|gb@gmail.com|Bajkowa 9, 00-000 Bajkowo|
 10|4|Karol|Kremowka|444 333 222|kk@gmail.com|Bajkowa 10, 00-000 Bajkolandia|
 11|4|Franek|Maniek|555 444 333|fm@gmail.com|Bajkowa 11, 00-000 Bajkolandia|
+12|5|Magda|Modnicka|333 222 111|mm@gmail.com|Bajkowa 12, 00-000 Bajkolandia|
+13|5|Magda|Ziobro|333 222 111|mz@gmail.com|Bajkowa 13, 00-000 Bajkolandia|
