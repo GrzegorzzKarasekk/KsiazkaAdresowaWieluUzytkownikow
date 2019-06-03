@@ -5,3 +5,4 @@
 5|1|Jacek|Soplica|333 222 111|js@gmail.com|Bajkowa 5, 00-000 Bajkolandia|
 6|1|Boguslaw|Linda|444 333 222|bl@gmail.com|Bajkowa 6, 00-000 Bajkolandia|
 7|2|Maciej|Franek|333 222 111|mf@gmail.com|Bajkowa 7, 00-000 Bajkolandia|
+8|1|Janusz|Drwal|333 222 111|md@gmail.com|Bajkowa 8, 00-000 Bajkolandia|

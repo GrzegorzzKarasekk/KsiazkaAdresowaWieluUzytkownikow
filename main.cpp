@@ -509,7 +509,7 @@ void wyszukiwanieOsobyPoImieniu(vector <Adresat> &adresaci)
 
     system("cls");
     cout << "Podaj imie szukanej osoby:";
-    cin>>imie; // powiedzmy, ¿e to jest id szukanego pacjenta
+    cin>>imie; // powiedzmy, ?e to jest id szukanego pacjenta
 
 
     for(vector<Adresat>::iterator i = adresaci.begin(); i < adresaci.end(); i++)
@@ -532,7 +532,7 @@ void wyszukiwanieOsobyPoNazwisku(vector <Adresat> &adresaci)
 
     system("cls");
     cout << "Podaj nawisko szukanej osoby:";
-    cin>>nazwisko; // powiedzmy, ¿e to jest id szukanego pacjenta
+    cin>>nazwisko; // powiedzmy, ?e to jest id szukanego pacjenta
 
 
     for(vector<Adresat>::iterator i = adresaci.begin(); i < adresaci.end(); i++)
@@ -828,6 +828,9 @@ void wczytajOknoLogowania(int idUzytkownika)
         {
 
             edytowanieZapisanychOsob(osoby, adresaci);
+            wczytajOsobeZPliku(osoby);
+            kopiujKsiazkeAdresowa(osoby);
+            wczytajOsobyAdresataZPliku(adresaci, idUzytkownika);
             break;
         }
         case '9':
