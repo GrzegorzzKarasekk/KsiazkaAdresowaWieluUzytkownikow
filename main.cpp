@@ -281,7 +281,7 @@ void wczytajOsobeZPliku(vector<Osoba> &osoby)
 void kopiujKsiazkeAdresowa(vector<Osoba> &osoby)
 {
     fstream plikTekstowy;
-    plikTekstowy.open("kopiaKsiazkiAdresowa.txt", ios::out);
+    plikTekstowy.open("kopiaKsiazkaAdresowa.txt", ios::out);
     //cout << "Plik nie istnieje!!!";
     //cout << "Zostaje utworzona kopia ksiazki adresowej :)";
     //Sleep(3000);
@@ -308,7 +308,7 @@ void wczytajOsobyAdresataZPliku(vector<Adresat> &adresaci, int idUzytkownik)
     adresaci.clear();
 
     fstream plikTekstowy;
-    plikTekstowy.open("kopiaKsiazkiAdresowa.txt", ios::in);
+    plikTekstowy.open("kopiaKsiazkaAdresowa.txt", ios::in);
 
     if (plikTekstowy.good() == false)
     {
@@ -327,6 +327,167 @@ void wczytajOsobyAdresataZPliku(vector<Adresat> &adresaci, int idUzytkownik)
         }
         plikTekstowy.close();
     }
+}
+
+Adresat modyfikacjaWybranegoUzytkownika(vector<Adresat> &adresaci, int id)
+{
+    Adresat dodanyAdresat;
+    char wybor, znak;
+
+    for(vector<Adresat>::iterator i = adresaci.begin(); i < adresaci.end(); i++)
+    {
+        if(i -> id == id)
+        {
+
+            dodanyAdresat.id = i -> id;
+            dodanyAdresat.imie = i -> imie;
+            dodanyAdresat.nazwisko = i -> nazwisko;
+            dodanyAdresat.numerTelefonu = i -> numerTelefonu;
+            dodanyAdresat.email = i -> email;
+            dodanyAdresat.adres = i -> adres;
+        }
+
+        while(true)
+        {
+            system("cls");
+            cout << "Edycja adresata: " << i -> id << "|" << i -> imie << "|" << i -> nazwisko << endl;
+            cout << "1.Zmien imie" << endl;
+            cout << "2.Zmien nazwisko" << endl;
+            cout << "3.Zmien numer telefonu" << endl;
+            cout << "4.Zmien email" << endl;
+            cout << "5.Zmien adres" << endl;
+            cout << "6.Powrot" << endl;
+            cin >> wybor;
+
+
+            switch(wybor)
+            {
+            case '1':
+            {
+                cout << i -> imie << endl;
+                cout << "Aby zmienic imie wcisnij 't'||Inny klawisz anuluje rozkaz... " << endl;
+                znak = getch();
+                if (znak =='t')
+                {
+                    cout << "Wpisz nowe imie:" << endl;
+                    cin.sync();
+                    dodanyAdresat.imie = wczytajLinie();
+                    dodanyAdresat.imie = zamianaPierwszejLiteryNaDuzaReszteNaMale(dodanyAdresat.imie);
+                    i -> imie = dodanyAdresat.imie;
+                    break;
+                }
+                else
+                    break;
+            }
+            case '2':
+            {
+                cout << i -> nazwisko << endl;
+                cout << "Aby zmienic nazwisko wcisnij 't'||Inny klawisz anuluje rozkaz... " << endl;
+                znak = getch();
+                if (znak =='t')
+                {
+                    cout << "Wpisz nowe nazwisko:" << endl;
+                    cin.sync();
+                    dodanyAdresat.nazwisko = wczytajLinie();
+                    dodanyAdresat.nazwisko = zamianaPierwszejLiteryNaDuzaReszteNaMale(dodanyAdresat.nazwisko);
+                    i -> nazwisko = dodanyAdresat.nazwisko;
+                    break;
+                }
+                else
+                    break;
+            }
+            case '3':
+            {
+                cout << i -> numerTelefonu << endl;
+                cout << "Aby zmienic numer telefonu wcisnij 't'||Inny klawisz anuluje rozkaz... " << endl;
+                znak = getch();
+                if (znak =='t')
+                {
+                    cout << "Wpisz nowy numer telefonu:" << endl;
+                    cin.sync();
+                    dodanyAdresat.numerTelefonu = wczytajLinie();
+                    i -> numerTelefonu = dodanyAdresat.numerTelefonu;
+                    break;
+                }
+                else
+                    break;
+            }
+            case '4':
+            {
+                cout << i -> email << endl;
+                cout << "Aby zmienic email wcisnij 't'||Inny klawisz anuluje rozkaz... " << endl;
+                znak = getch();
+                if (znak =='t')
+                {
+                    cout << "Wpisz nowy email:" << endl;
+                    cin.sync();
+                    dodanyAdresat.email = wczytajLinie();
+                    i -> email = dodanyAdresat.email;
+                    break;
+                }
+                else
+                    break;
+            }
+            case '5':
+            {
+                cout << i -> adres << endl;
+                cout << "Aby zmienic adres wcisnij 't'||Inny klawisz anuluje rozkaz... " << endl;
+                znak = getch();
+                if (znak =='t')
+                {
+                    cout << "Wpisz nowy numer adres:" << endl;
+                    cin.sync();
+                    dodanyAdresat.adres = wczytajLinie();
+                    i -> adres = dodanyAdresat.adres;
+                    break;
+                }
+                else
+                    break;
+            }
+            case '6':
+            {
+                return dodanyAdresat;
+            }
+            }
+        }
+    }
+}
+
+void zapisywanieWPlikuTymczasowym(vector<Osoba> &osoby, vector<Adresat> &adresaci, int id)
+{
+    Adresat dodanyAdresat;
+    fstream plikTekstowy;
+    plikTekstowy.open("kopiaTymczasowaKsiazkiAdresowej.txt", ios::out);
+    //cout << "Plik nie istnieje!!!";
+    //cout << "Zostaje utworzona kopia ksiazki adresowej :)";
+    //Sleep(3000);
+    int i = 0;
+    while(i < osoby.size())
+    {
+        if (id == osoby[i].id)
+        {
+            dodanyAdresat = modyfikacjaWybranegoUzytkownika(adresaci, id);
+            plikTekstowy << dodanyAdresat.id << "|";
+            plikTekstowy << osoby[i].idUzytkownika << "|";
+            plikTekstowy << dodanyAdresat.imie << "|";
+            plikTekstowy << dodanyAdresat.nazwisko << "|";
+            plikTekstowy << dodanyAdresat.numerTelefonu << "|";
+            plikTekstowy << dodanyAdresat.email << "|";
+            plikTekstowy << dodanyAdresat.adres << "|" << endl;
+        }
+        else
+        {
+            plikTekstowy << osoby[i].id << "|";
+            plikTekstowy << osoby[i].idUzytkownika << "|";
+            plikTekstowy << osoby[i].imie << "|";
+            plikTekstowy << osoby[i].nazwisko << "|";
+            plikTekstowy << osoby[i].numerTelefonu << "|";
+            plikTekstowy << osoby[i].email << "|";
+            plikTekstowy << osoby[i].adres << "|" << endl;
+        }
+        i++;
+    }
+    plikTekstowy.close();
 }
 
 void wyswietlanieZapisanychOsoby(vector <Adresat> &adresaci)
@@ -394,7 +555,7 @@ void czyszczeniePlikuPrzedPonownymZapisem(vector <Osoba> &osoby)
 {
     int i = 0;
     fstream plik;
-    plik.open("ksiazkaadresowa.txt", ios::out | ios::trunc);
+    plik.open("TymczasowyAdresat.txt", ios::out | ios::trunc);
 
     if(plik.good() == true)
     {
@@ -411,6 +572,18 @@ void czyszczeniePlikuPrzedPonownymZapisem(vector <Osoba> &osoby)
         }
         plik.close();
     }
+}
+
+bool sprawdzanieAdresataDlaDanegoUzytkownika(vector<Adresat> &adresaci, int id)
+{
+        for(vector<Adresat>::iterator i = adresaci.begin(); i < adresaci.end(); i++)
+        {
+            if(i -> id == id)
+            {
+                return true;
+            }
+        }
+        return false;
 }
 
 void usuwanieZapisanychOsob(vector <Osoba> &osoby)
@@ -446,141 +619,24 @@ void usuwanieZapisanychOsob(vector <Osoba> &osoby)
     return void();
 }
 
-void edytowanieZapisanychOsob(vector <Osoba> &osoby)
+void edytowanieZapisanychOsob(vector <Osoba> &osoby, vector<Adresat> &adresaci)
 {
-    Osoba dodanaOsoba;
+    Adresat dodanyAdresat;
     int id;
-    char wybor, znak;
 
     system("cls");
-
     cout << ">>>EDYCJA OSOBY <<<" << endl;
     cout << "Podaj id uzytkownika ktorego chcesz zmodyfikowac: ";
     cin >> id;
 
-    for(vector<Osoba>::iterator i = osoby.begin(); i < osoby.end(); i++)
-    {
-        if(i -> id == id)
+    if (sprawdzanieAdresataDlaDanegoUzytkownika(adresaci, id) == false)
         {
-            dodanaOsoba.id = i -> id;
-            dodanaOsoba.imie = i -> imie;
-            dodanaOsoba.nazwisko = i -> nazwisko;
-            dodanaOsoba.numerTelefonu = i -> numerTelefonu;
-            dodanaOsoba.email = i -> email;
-            dodanaOsoba.adres = i -> adres;
-
-            while(true)
-            {
-                system("cls");
-                cout << "Edycja osoby: " << i -> id << "|" << i -> imie << "|" << i -> nazwisko << endl;
-                cout << "1.Zmien imie" << endl;
-                cout << "2.Zmien nazwisko" << endl;
-                cout << "3.Zmien numer telefonu" << endl;
-                cout << "4.Zmien email" << endl;
-                cout << "5.Zmien adres" << endl;
-                cout << "6.Powrot do menu" << endl;
-                cin >> wybor;
-
-
-                switch(wybor)
-                {
-                case '1':
-                {
-                    cout << i -> imie << endl;
-                    cout << "Aby zmienic imie wcisnij 't'||Inny klawisz anuluje rozkaz... " << endl;
-                    znak = getch();
-                    if (znak =='t')
-                    {
-                        cout << "Wpisz nowe imie:" << endl;
-                        cin.sync();
-                        dodanaOsoba.imie = wczytajLinie();
-                        dodanaOsoba.imie = zamianaPierwszejLiteryNaDuzaReszteNaMale(dodanaOsoba.imie);
-                        i -> imie = dodanaOsoba.imie;
-                        czyszczeniePlikuPrzedPonownymZapisem(osoby);
-                        break;
-                    }
-                    else
-                        break;
-                }
-                case '2':
-                {
-                    cout << i -> nazwisko << endl;
-                    cout << "Aby zmienic nazwisko wcisnij 't'||Inny klawisz anuluje rozkaz... " << endl;
-                    znak = getch();
-                    if (znak =='t')
-                    {
-                        cout << "Wpisz nowe nazwisko:" << endl;
-                        cin.sync();
-                        dodanaOsoba.nazwisko = wczytajLinie();
-                        dodanaOsoba.nazwisko = zamianaPierwszejLiteryNaDuzaReszteNaMale(dodanaOsoba.nazwisko);
-                        i -> nazwisko = dodanaOsoba.nazwisko;
-                        czyszczeniePlikuPrzedPonownymZapisem(osoby);
-                        break;
-                    }
-                    else
-                        break;
-                }
-                case '3':
-                {
-                    cout << i -> numerTelefonu << endl;
-                    cout << "Aby zmienic numer telefonu wcisnij 't'||Inny klawisz anuluje rozkaz... " << endl;
-                    znak = getch();
-                    if (znak =='t')
-                    {
-                        cout << "Wpisz nowy numer telefonu:" << endl;
-                        cin.sync();
-                        dodanaOsoba.numerTelefonu = wczytajLinie();
-                        i -> numerTelefonu = dodanaOsoba.numerTelefonu;
-                        czyszczeniePlikuPrzedPonownymZapisem(osoby);
-                        break;
-                    }
-                    else
-                        break;
-                }
-                case '4':
-                {
-                    cout << i -> email << endl;
-                    cout << "Aby zmienic email wcisnij 't'||Inny klawisz anuluje rozkaz... " << endl;
-                    znak = getch();
-                    if (znak =='t')
-                    {
-                        cout << "Wpisz nowy email:" << endl;
-                        cin.sync();
-                        dodanaOsoba.email = wczytajLinie();
-                        i -> email = dodanaOsoba.email;
-                        czyszczeniePlikuPrzedPonownymZapisem(osoby);
-                        break;
-                    }
-                    else
-                        break;
-                }
-                case '5':
-                {
-                    cout << i -> adres << endl;
-                    cout << "Aby zmienic adres wcisnij 't'||Inny klawisz anuluje rozkaz... " << endl;
-                    znak = getch();
-                    if (znak =='t')
-                    {
-                        cout << "Wpisz nowy numer adres:" << endl;
-                        cin.sync();
-                        dodanaOsoba.adres = wczytajLinie();
-                        i -> adres = dodanaOsoba.adres;
-                        czyszczeniePlikuPrzedPonownymZapisem(osoby);
-                        break;
-                    }
-                    else
-                        break;
-                }
-                case '6':
-                {
-                    return void();
-                }
-                }
-            }
+            cout << "Podany adresat nie istnieje w Twojej ksiazce adresowej!!!";
+            cout << "Sprawdz poprawny nr id adresata";
+            Sleep(5000);
+            return void();
         }
-    }
-    cout << "Uzytkownik nie istnieje!!!";
-    Sleep(1000);
+    zapisywanieWPlikuTymczasowym(osoby, adresaci, id);
     return void();
 }
 
@@ -759,7 +815,7 @@ void wczytajOknoLogowania(int idUzytkownika)
         case '6':
         {
 
-            edytowanieZapisanychOsob(osoby);
+            edytowanieZapisanychOsob(osoby, adresaci);
             break;
         }
         case '9':
