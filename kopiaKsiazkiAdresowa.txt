@@ -1,0 +1,3 @@
+1|1|Janko|Muzykant|333 222 111|jm@gmail.com|Bajkowo 1. 00-000 Bajkolandia|
+2|1|Jasio |Stasio|333 222 111|js@gmail.com|Bajkowo 2. 00-000 Bajkolandia|
+3|2|Janek|Franek|333 222 111|jf@gmail.com|Bajkowa 3, 00-000 Bajkolandia|
