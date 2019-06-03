@@ -9,7 +9,7 @@ using namespace std;
 
 struct Osoba
 {
-    int id;
+    int id, idUzytkownika;
     string imie, nazwisko, numerTelefonu, email, adres;
 };
 
@@ -41,11 +41,12 @@ void dopiszOsobeDoPlikuTXT(Osoba dodanaOsoba)
     if (plik.good() == true)
     {
         plik << dodanaOsoba.id << "|";
+        plik << dodanaOsoba.idUzytkownika << "|";
         plik << dodanaOsoba.imie << "|";
         plik << dodanaOsoba.nazwisko << "|";
         plik << dodanaOsoba.numerTelefonu << "|";
         plik << dodanaOsoba.email << "|";
-        plik << dodanaOsoba.adres << "|" <<endl;
+        plik << dodanaOsoba.adres << "|" << endl;
         plik.close();
         cout << "Osoba zostala dodana do ksiazki adresowej" << endl;
         Sleep(1000);
@@ -78,7 +79,7 @@ void dopiszUzytkownikaDoPlikuTXT(Uzytkownik dodanyUzytkownik)
     }
 }
 
-void dodajOsoby(vector <Osoba> &osoby)
+void dodajOsoby(vector <Osoba> &osoby, int idUzytkownika)
 {
     Osoba dodanaOsoba;
 
@@ -93,6 +94,7 @@ void dodajOsoby(vector <Osoba> &osoby)
     {
         dodanaOsoba.id = osoby.back().id + 1;
     }
+        dodanaOsoba.idUzytkownika = idUzytkownika;
 
     cout << "Podaj imie osoby: ";
     cin.sync();
@@ -207,6 +209,7 @@ void wczytajOsobeZPliku(vector<Osoba> &osoby)
     if (plikTekstowy.good() == false)
     {
         cout << "Plik nie istnieje!!!";
+        cout << "Zostaje utworzony nowy plik do zapisu osob w ksiazce adresowej :)";
         Sleep(3000);
     }
 
@@ -580,6 +583,7 @@ void wczytajUzytkownikaZPliku(vector <Uzytkownik> &uzytkownicy)
     if (plikTekstowy.good() == false)
     {
         cout << "Plik nie istnieje!!!";
+        cout << "Zostaje utworzony nowy plik do zapisu Uzytkownikow :)";
         Sleep(3000);
     }
 
@@ -595,7 +599,7 @@ void wczytajUzytkownikaZPliku(vector <Uzytkownik> &uzytkownicy)
     }
 }
 
-void wczytajOknoLogowania()
+void wczytajOknoLogowania(int idUzytkownika)
 {
     vector <Osoba> osoby;
     wczytajOsobeZPliku(osoby);
@@ -619,7 +623,7 @@ void wczytajOknoLogowania()
         {
         case '1':
         {
-            dodajOsoby(osoby);
+            dodajOsoby(osoby, idUzytkownika);
             break;
         }
         case '2':
@@ -660,7 +664,7 @@ void wczytajOknoLogowania()
     }
 
 }
-string sprawdzaniehasla(vector <Uzytkownik> &uzytkownicy, string login, string haslo)
+string sprawdzanieHasla(vector <Uzytkownik> &uzytkownicy, string login, string haslo)
 {
     for(vector<Uzytkownik>::iterator i = uzytkownicy.begin(); i < uzytkownicy.end(); i++)
     {
@@ -670,9 +674,20 @@ string sprawdzaniehasla(vector <Uzytkownik> &uzytkownicy, string login, string h
         }
     }
 }
+int sprawdzanieidUzytkownika(vector <Uzytkownik> &uzytkownicy, string login, string haslo)
+{
+    for(vector<Uzytkownik>::iterator i = uzytkownicy.begin(); i < uzytkownicy.end(); i++)
+    {
+        if(i->login == login && i->haslo == haslo)
+        {
+            return i->idUzytkownika;
+        }
+    }
+}
 
 void logowanieUzytkownika (vector <Uzytkownik> &uzytkownicy)
 {
+    int idUzytkownika;
     string login, haslo;
     cout << "Podaj login: ";
     cin.sync();
@@ -688,11 +703,12 @@ void logowanieUzytkownika (vector <Uzytkownik> &uzytkownicy)
         cout<<"Podaj haslo. Pozostalo prob " << 3 - proby <<": " ;
         cin.sync();
         haslo = wczytajLinie();
-        if (haslo == sprawdzaniehasla(uzytkownicy,login, haslo))
+        if (haslo == sprawdzanieHasla(uzytkownicy, login, haslo))
         {
             cout << login <<" zalogowales sie!!!" << endl;
             Sleep(1000);
-            wczytajOknoLogowania();
+            idUzytkownika = sprawdzanieidUzytkownika(uzytkownicy, login, haslo);
+            wczytajOknoLogowania(idUzytkownika);
             return void();
         }
     }
