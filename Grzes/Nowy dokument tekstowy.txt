@@ -80,7 +80,7 @@ void dopiszUzytkownikaDoPlikuTXT(Uzytkownik dodanyUzytkownik)
     }
     else
     {
-        cout << "Nie udalo sie utworzyƒá konta" << endl;
+        cout << "Nie udalo sie utworzyÊ konta" << endl;
         Sleep(1000);
     }
 }
@@ -253,7 +253,7 @@ void wczytajOsobeZPliku(vector<Osoba> &osoby)
 {
     Osoba dodanaOsoba;
     string daneJednejOsobyOddzielonePionowymiKreskami = "";
-    ///UWAGA CZYSZCZENIE CA≈ÅEGO WEKTORA
+    ///UWAGA CZYSZCZENIE CA£EGO WEKTORA
     osoby.clear();
 
     fstream plikTekstowy;
@@ -282,6 +282,9 @@ void kopiujKsiazkeAdresowa(vector<Osoba> &osoby)
 {
     fstream plikTekstowy;
     plikTekstowy.open("kopiaKsiazkaAdresowa.txt", ios::out);
+    //cout << "Plik nie istnieje!!!";
+    //cout << "Zostaje utworzona kopia ksiazki adresowej :)";
+    //Sleep(3000);
     int i = 0;
     while(i < osoby.size())
     {
@@ -331,7 +334,7 @@ void wczytajUzytkownikaZPliku(vector <Uzytkownik> &uzytkownicy)
     Uzytkownik dodanyUzytkownik;
 
     string daneJednegoUzytkownikaOddzielonePionowymiKreskami = "";
-    ///UWAGA CZYSZCZENIE CA≈ÅEGO WEKTORA
+    ///UWAGA CZYSZCZENIE CA£EGO WEKTORA
     uzytkownicy.clear();
 
     fstream plikTekstowy;
@@ -381,7 +384,7 @@ void wczytajOsobyUzytkownikaZPliku(vector<Adresat> &adresaci, int idUzytkownik)
 {
     Adresat dodanyAdresat;
     string daneJednejOsobyOddzielonePionowymiKreskami = "";
-    ///UWAGA CZYSZCZENIE CA≈ÅEGO WEKTORA
+    ///UWAGA CZYSZCZENIE CA£EGO WEKTORA
     adresaci.clear();
 
     fstream plikTekstowy;
@@ -404,130 +407,6 @@ void wczytajOsobyUzytkownikaZPliku(vector<Adresat> &adresaci, int idUzytkownik)
         }
         plikTekstowy.close();
     }
-}
-
-Adresat modyfikacjaWybranegoUzytkownika(vector<Adresat> &adresaci, int id)
-{
-    Adresat dodanyAdresat;
-    char wybor, znak;
-
-    for(vector<Adresat>::iterator i = adresaci.begin(); i < adresaci.end(); i++)
-    {
-        if(i -> id == id)
-        {
-
-            dodanyAdresat.id = i -> id;
-            dodanyAdresat.imie = i -> imie;
-            dodanyAdresat.nazwisko = i -> nazwisko;
-            dodanyAdresat.numerTelefonu = i -> numerTelefonu;
-            dodanyAdresat.email = i -> email;
-            dodanyAdresat.adres = i -> adres;
-        }
-    }
-    while(true)
-    {
-        system("cls");
-        cout << "Edycja adresata: " << dodanyAdresat.id << "|" << dodanyAdresat.imie << "|" << dodanyAdresat.nazwisko << endl;
-        cout << "1.Zmien imie" << endl;
-        cout << "2.Zmien nazwisko" << endl;
-        cout << "3.Zmien numer telefonu" << endl;
-        cout << "4.Zmien email" << endl;
-        cout << "5.Zmien adres" << endl;
-        cout << "6.Powrot" << endl;
-        cin >> wybor;
-
-
-        switch(wybor)
-        {
-        case '1':
-        {
-            cout << dodanyAdresat.imie << endl;
-            cout << "Aby zmienic imie wcisnij 't'||Inny klawisz anuluje rozkaz... " << endl;
-            znak = getch();
-            if (znak =='t')
-            {
-                cout << "Wpisz nowe imie:" << endl;
-                cin.sync();
-                dodanyAdresat.imie = wczytajLinie();
-                dodanyAdresat.imie = zamianaPierwszejLiteryNaDuzaReszteNaMale(dodanyAdresat.imie);
-                //i -> imie = dodanyAdresat.imie;
-                break;
-            }
-            else
-                break;
-        }
-        case '2':
-        {
-            cout << dodanyAdresat.nazwisko << endl;
-            cout << "Aby zmienic nazwisko wcisnij 't'||Inny klawisz anuluje rozkaz... " << endl;
-            znak = getch();
-            if (znak =='t')
-            {
-                cout << "Wpisz nowe nazwisko:" << endl;
-                cin.sync();
-                dodanyAdresat.nazwisko = wczytajLinie();
-                dodanyAdresat.nazwisko = zamianaPierwszejLiteryNaDuzaReszteNaMale(dodanyAdresat.nazwisko);
-                //i -> nazwisko = dodanyAdresat.nazwisko;
-                break;
-            }
-            else
-                break;
-        }
-        case '3':
-        {
-            cout << dodanyAdresat.numerTelefonu << endl;
-            cout << "Aby zmienic numer telefonu wcisnij 't'||Inny klawisz anuluje rozkaz... " << endl;
-            znak = getch();
-            if (znak =='t')
-            {
-                cout << "Wpisz nowy numer telefonu:" << endl;
-                cin.sync();
-                dodanyAdresat.numerTelefonu = wczytajLinie();
-                //i -> numerTelefonu = dodanyAdresat.numerTelefonu;
-                break;
-            }
-            else
-                break;
-        }
-        case '4':
-        {
-            cout << dodanyAdresat.email << endl;
-            cout << "Aby zmienic email wcisnij 't'||Inny klawisz anuluje rozkaz... " << endl;
-            znak = getch();
-            if (znak =='t')
-            {
-                cout << "Wpisz nowy email:" << endl;
-                cin.sync();
-                dodanyAdresat.email = wczytajLinie();
-                //i -> email = dodanyAdresat.email;
-                break;
-            }
-            else
-                break;
-        }
-        case '5':
-        {
-            cout << dodanyAdresat.adres << endl;
-            cout << "Aby zmienic adres wcisnij 't'||Inny klawisz anuluje rozkaz... " << endl;
-            znak = getch();
-            if (znak =='t')
-            {
-                cout << "Wpisz nowy numer adres:" << endl;
-                cin.sync();
-                dodanyAdresat.adres = wczytajLinie();
-                //i -> adres = dodanyAdresat.adres;
-                break;
-            }
-            else
-                break;
-        }
-        case '6':
-        {
-            return dodanyAdresat;
-        }
-        }
-    }
-
 }
 
 void zapisywanieWPlikuTymczasowym(vector<Osoba> &osoby, vector<Adresat> &adresaci, int id)
@@ -564,18 +443,18 @@ void zapisywanieWPlikuTymczasowym(vector<Osoba> &osoby, vector<Adresat> &adresac
     plikTekstowy.close();
 }
 
-void zapisywanieWPlikuTymczasowymUzytkownikow(vector<Uzytkownik> &uzytkownicy,int idUzytkownika, string haslo)
+void zapisywanieWPlikuTymczasowymUzytkownikow(vector<Uzytkownik> &uzytkownicy, int idUzytkownika, Uzytkownik dodanyUzytkownik)
 {
     fstream plikTekstowy;
     plikTekstowy.open("kopiaUzytkownikow.txt", ios::out);
     int i = 0;
     while(i < uzytkownicy.size())
     {
-        if(idUzytkownika == uzytkownicy[i].idUzytkownika)
+        if (idUzytkownika == uzytkownicy[i].idUzytkownika)
         {
-            plikTekstowy << uzytkownicy[i].idUzytkownika << "|";
-            plikTekstowy << uzytkownicy[i].login << "|";
-            plikTekstowy << haslo << "|" << endl;
+            plikTekstowy << dodanyUzytkownik.idUzytkownika << "|";
+            plikTekstowy << dodanyUzytkownik.login << "|";
+            plikTekstowy << dodanyUzytkownik.haslo << "|"<<endl;
         }
         else
         {
@@ -617,7 +496,7 @@ void wyszukiwanieOsobyPoImieniu(vector <Adresat> &adresaci)
     {
         if(i->imie == imie)
         {
-            cout << i->id << " "<<i->imie << " " << i->nazwisko << " " << i->numerTelefonu << " " << i->email <<" " <<i->adres <<" " << endl;
+            cout << i->id << " " <<i->imie << " "<<i->imie << " " << i->nazwisko << " " << i->numerTelefonu << " " << i->email <<" " <<i->adres <<" " << endl;
         }
     }
     cout << "Aby zakonczyc wcisnij dowolny klawisz... ";
@@ -640,7 +519,7 @@ void wyszukiwanieOsobyPoNazwisku(vector <Adresat> &adresaci)
     {
         if(i->nazwisko == nazwisko)
         {
-            cout << i->id << " " << i->nazwisko << " " << i->numerTelefonu << " " << i->email <<" " <<i->adres <<" " << endl;
+            cout << i->id << " " <<i->imie << " " << i->nazwisko << " " << i->numerTelefonu << " " << i->email <<" " <<i->adres <<" " << endl;
         }
     }
     cout << "Aby zakonczyc wcisnij dowolny klawisz... ";
@@ -695,14 +574,14 @@ void czyszczeniePlikuUzytkownikowPrzedPonownymZapisem(vector <Uzytkownik> &uzytk
 
 bool sprawdzanieAdresataDlaDanegoUzytkownika(vector<Adresat> &adresaci, int id)
 {
-    for(vector<Adresat>::iterator i = adresaci.begin(); i < adresaci.end(); i++)
-    {
-        if(i -> id == id)
+        for(vector<Adresat>::iterator i = adresaci.begin(); i < adresaci.end(); i++)
         {
-            return true;
+            if(i -> id == id)
+            {
+                return true;
+            }
         }
-    }
-    return false;
+        return false;
 }
 
 void zamianaPlikuTymczasowegoNaPlikOrginalny()
@@ -712,7 +591,7 @@ void zamianaPlikuTymczasowegoNaPlikOrginalny()
     //if( remove( "plik.txt" ) == 0 )
     //    printf( "Usunieto pomyslnie plik." );
     //else
-    //   printf( "Nie udalo sie skasowac pliku." );
+     //   printf( "Nie udalo sie skasowac pliku." );
 }
 
 void usuwanieZapisanychOsob(vector <Osoba> &osoby, vector<Adresat> &adresaci, int idUzytkownika)
@@ -724,12 +603,12 @@ void usuwanieZapisanychOsob(vector <Osoba> &osoby, vector<Adresat> &adresaci, in
     cin >> id;
 
     if (sprawdzanieAdresataDlaDanegoUzytkownika(adresaci, id) == false)
-    {
-        cout << "Podany adresat nie istnieje w Twojej ksiazce adresowej!!!" << endl;
-        cout << "Sprawdz poprawny nr id adresata" << endl;
-        Sleep(5000);
-        return void();
-    }
+        {
+            cout << "Podany adresat nie istnieje w Twojej ksiazce adresowej!!!" << endl;
+            cout << "Sprawdz poprawny nr id adresata" << endl;
+            Sleep(5000);
+            return void();
+        }
 
     for(vector<Osoba>::iterator i = osoby.begin(); i < osoby.end(); i++)
     {
@@ -768,12 +647,12 @@ void edytowanieZapisanychOsob(vector <Osoba> &osoby, vector<Adresat> &adresaci)
     cin >> id;
 
     if (sprawdzanieAdresataDlaDanegoUzytkownika(adresaci, id) == false)
-    {
-        cout << "Podany adresat nie istnieje w Twojej ksiazce adresowej!!!" << endl;
-        cout << "Sprawdz poprawny nr id adresata" << endl;
-        Sleep(5000);
-        return void();
-    }
+        {
+            cout << "Podany adresat nie istnieje w Twojej ksiazce adresowej!!!" << endl;
+            cout << "Sprawdz poprawny nr id adresata" << endl;
+            Sleep(5000);
+            return void();
+        }
     zapisywanieWPlikuTymczasowym(osoby, adresaci, id);
     zamianaPlikuTymczasowegoNaPlikOrginalny();
 
@@ -801,15 +680,14 @@ void edytowanieHaslaUzytkownika(vector <Uzytkownik> uzytkownicy, int idUzytkowni
     cin.sync();
     haslo = wczytajLinie();
 
-    if (haslo == sprawdzanieHasla(uzytkownicy, dodanyUzytkownik.login, haslo))
+    if (haslo != sprawdzanieHasla(uzytkownicy, dodanyUzytkownik.login, haslo))
     {
         dodanyUzytkownik.haslo = wprowadzenieHasla();
-        haslo = dodanyUzytkownik.haslo;
-        zapisywanieWPlikuTymczasowymUzytkownikow(uzytkownicy, idUzytkownika, haslo);
+        zapisywanieWPlikuTymczasowymUzytkownikow(adresaci, idUzytkownika, dodanyUzytkownik);
+        czyszczeniePlikuUzytkownikowPrzedPonownymZapisem(uzytkownicy);
+        wczytajUzytkownikaZPliku(uzytkownicy);
         remove ("Uzytkownicy.txt");
         rename ("kopiaUzytkownikow.txt", "Uzytkownicy.txt");
-        cout << "Haslo zostalo zmienione :)";
-        Sleep(1000);
     }
     else
     {
@@ -879,7 +757,7 @@ void rejestracjaUzytkownikow(vector <Uzytkownik> &uzytkownicy)
     //SPRAWDZENIECZU UZYTKOWNIK ISTNIEJE!!!
     dodanyUzytkownik.login = sprawdzanieDostepnosciLoginuUzytkownika(uzytkownicy);
 
-    //SPRAWDZENIE CZY Has≈Ço jest wpisane poprawnie (2x) !!!
+    //SPRAWDZENIE CZY Has≥o jest wpisane poprawnie (2x) !!!
     dodanyUzytkownik.haslo = wprowadzenieHasla();
 
     uzytkownicy.push_back(dodanyUzytkownik);
@@ -895,7 +773,6 @@ void wczytajOknoLogowania(int idUzytkownika, string login)
     wczytajOsobeZPliku(osoby);
     kopiujKsiazkeAdresowa(osoby);
     wczytajOsobyUzytkownikaZPliku(adresaci, idUzytkownika);
-    wczytajUzytkownikaZPliku(uzytkownicy);
     char wybor;
 
     while(true)
@@ -959,7 +836,6 @@ void wczytajOknoLogowania(int idUzytkownika, string login)
         case '7':
         {
             edytowanieHaslaUzytkownika(uzytkownicy, idUzytkownika);
-            wczytajOsobyUzytkownikaZPliku(adresaci, idUzytkownika);
             break;
         }
         case '9':

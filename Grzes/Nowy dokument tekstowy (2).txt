@@ -1,0 +1,124 @@
+
+Adresat modyfikacjaWybranegoUzytkownika(vector<Adresat> &adresaci, int id)
+{
+    Adresat dodanyAdresat;
+    char wybor, znak;
+
+    for(vector<Adresat>::iterator i = adresaci.begin(); i < adresaci.end(); i++)
+    {
+        if(i -> id == id)
+        {
+
+            dodanyAdresat.id = i -> id;
+            dodanyAdresat.imie = i -> imie;
+            dodanyAdresat.nazwisko = i -> nazwisko;
+            dodanyAdresat.numerTelefonu = i -> numerTelefonu;
+            dodanyAdresat.email = i -> email;
+            dodanyAdresat.adres = i -> adres;
+        }
+    }
+    while(true)
+        {
+            system("cls");
+            cout << "Edycja adresata: " << dodanyAdresat.id << "|" << dodanyAdresat.imie << "|" << dodanyAdresat.nazwisko << endl;
+            cout << "1.Zmien imie" << endl;
+            cout << "2.Zmien nazwisko" << endl;
+            cout << "3.Zmien numer telefonu" << endl;
+            cout << "4.Zmien email" << endl;
+            cout << "5.Zmien adres" << endl;
+            cout << "6.Powrot" << endl;
+            cin >> wybor;
+
+
+            switch(wybor)
+            {
+            case '1':
+            {
+                cout << dodanyAdresat.imie << endl;
+                cout << "Aby zmienic imie wcisnij 't'||Inny klawisz anuluje rozkaz... " << endl;
+                znak = getch();
+                if (znak =='t')
+                {
+                    cout << "Wpisz nowe imie:" << endl;
+                    cin.sync();
+                    dodanyAdresat.imie = wczytajLinie();
+                    dodanyAdresat.imie = zamianaPierwszejLiteryNaDuzaReszteNaMale(dodanyAdresat.imie);
+                    //i -> imie = dodanyAdresat.imie;
+                    break;
+                }
+                else
+                    break;
+            }
+            case '2':
+            {
+                cout << dodanyAdresat.nazwisko << endl;
+                cout << "Aby zmienic nazwisko wcisnij 't'||Inny klawisz anuluje rozkaz... " << endl;
+                znak = getch();
+                if (znak =='t')
+                {
+                    cout << "Wpisz nowe nazwisko:" << endl;
+                    cin.sync();
+                    dodanyAdresat.nazwisko = wczytajLinie();
+                    dodanyAdresat.nazwisko = zamianaPierwszejLiteryNaDuzaReszteNaMale(dodanyAdresat.nazwisko);
+                    //i -> nazwisko = dodanyAdresat.nazwisko;
+                    break;
+                }
+                else
+                    break;
+            }
+            case '3':
+            {
+                cout << dodanyAdresat.numerTelefonu << endl;
+                cout << "Aby zmienic numer telefonu wcisnij 't'||Inny klawisz anuluje rozkaz... " << endl;
+                znak = getch();
+                if (znak =='t')
+                {
+                    cout << "Wpisz nowy numer telefonu:" << endl;
+                    cin.sync();
+                    dodanyAdresat.numerTelefonu = wczytajLinie();
+                    //i -> numerTelefonu = dodanyAdresat.numerTelefonu;
+                    break;
+                }
+                else
+                    break;
+            }
+            case '4':
+            {
+                cout << dodanyAdresat.email << endl;
+                cout << "Aby zmienic email wcisnij 't'||Inny klawisz anuluje rozkaz... " << endl;
+                znak = getch();
+                if (znak =='t')
+                {
+                    cout << "Wpisz nowy email:" << endl;
+                    cin.sync();
+                    dodanyAdresat.email = wczytajLinie();
+                    //i -> email = dodanyAdresat.email;
+                    break;
+                }
+                else
+                    break;
+            }
+            case '5':
+            {
+                cout << dodanyAdresat.adres << endl;
+                cout << "Aby zmienic adres wcisnij 't'||Inny klawisz anuluje rozkaz... " << endl;
+                znak = getch();
+                if (znak =='t')
+                {
+                    cout << "Wpisz nowy numer adres:" << endl;
+                    cin.sync();
+                    dodanyAdresat.adres = wczytajLinie();
+                    //i -> adres = dodanyAdresat.adres;
+                    break;
+                }
+                else
+                    break;
+            }
+            case '6':
+            {
+                return dodanyAdresat;
+            }
+            }
+        }
+
+    }
