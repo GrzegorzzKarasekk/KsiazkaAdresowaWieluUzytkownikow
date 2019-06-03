@@ -300,7 +300,7 @@ void kopiujKsiazkeAdresowa(vector<Osoba> &osoby)
     plikTekstowy.close();
 }
 
-void wczytajOsobyAdresataZPliku(vector<Adresat> &adresaci, int idUzytkownik)
+void wczytajOsobyUzytkownikaZPliku(vector<Adresat> &adresaci, int idUzytkownik)
 {
     Adresat dodanyAdresat;
     string daneJednejOsobyOddzielonePionowymiKreskami = "";
@@ -552,7 +552,7 @@ void czyszczeniePlikuPrzedPonownymZapisem(vector <Osoba> &osoby)
 {
     int i = 0;
     fstream plik;
-    plik.open("TymczasowyAdresat.txt", ios::out | ios::trunc);
+    plik.open("kopiaTymczasowaKsiazkiAdresowej.txt", ios::out | ios::trunc);
 
     if(plik.good() == true)
     {
@@ -560,6 +560,7 @@ void czyszczeniePlikuPrzedPonownymZapisem(vector <Osoba> &osoby)
         while(i < osoby.size())
         {
             plik << osoby[i].id << "|";
+            plik << osoby[i].idUzytkownika << "|";
             plik << osoby[i].imie << "|";
             plik << osoby[i].nazwisko << "|";
             plik << osoby[i].numerTelefonu << "|";
@@ -583,13 +584,31 @@ bool sprawdzanieAdresataDlaDanegoUzytkownika(vector<Adresat> &adresaci, int id)
         return false;
 }
 
-void usuwanieZapisanychOsob(vector <Osoba> &osoby)
+void zamianaPlikuTymczasowegoNaPlikOrginalny()
+{
+    remove ("ksiazkaAdresowa.txt");
+    rename ("kopiaTymczasowaKsiazkiAdresowej.txt", "ksiazkaAdresowa.txt");
+    //if( remove( "plik.txt" ) == 0 )
+    //    printf( "Usunieto pomyslnie plik." );
+    //else
+     //   printf( "Nie udalo sie skasowac pliku." );
+}
+
+void usuwanieZapisanychOsob(vector <Osoba> &osoby, vector<Adresat> &adresaci, int idUzytkownika)
 {
     int id;
     char znak;
     system("cls");
     cout << "Podaj id osoby do usuniecia:";
     cin >> id;
+
+    if (sprawdzanieAdresataDlaDanegoUzytkownika(adresaci, id) == false)
+        {
+            cout << "Podany adresat nie istnieje w Twojej ksiazce adresowej!!!" << endl;
+            cout << "Sprawdz poprawny nr id adresata" << endl;
+            Sleep(5000);
+            return void();
+        }
 
     for(vector<Osoba>::iterator i = osoby.begin(); i < osoby.end(); i++)
     {
@@ -603,8 +622,9 @@ void usuwanieZapisanychOsob(vector <Osoba> &osoby)
                 osoby.erase(i);
                 cout << "Osoba zostala usunieta!!!";
                 Sleep(1000);
+                kopiujKsiazkeAdresowa(osoby);
                 czyszczeniePlikuPrzedPonownymZapisem(osoby);
-                wczytajOsobeZPliku(osoby);
+                zamianaPlikuTymczasowegoNaPlikOrginalny();
                 return void();
             }
             else
@@ -614,16 +634,6 @@ void usuwanieZapisanychOsob(vector <Osoba> &osoby)
     cout << "Uzytkownik nie istnieje!!!";
     Sleep(1000);
     return void();
-}
-
-void zamianaPlikuTymczasowegoNaPlikOrginalny()
-{
-    remove ("ksiazkaAdresowa.txt");
-    rename ("kopiaTymczasowaKsiazkiAdresowej.txt", "ksiazkaAdresowa.txt");
-    //if( remove( "plik.txt" ) == 0 )
-    //    printf( "Usunieto pomyslnie plik." );
-    //else
-     //   printf( "Nie udalo sie skasowac pliku." );
 }
 
 void edytowanieZapisanychOsob(vector <Osoba> &osoby, vector<Adresat> &adresaci)
@@ -638,8 +648,8 @@ void edytowanieZapisanychOsob(vector <Osoba> &osoby, vector<Adresat> &adresaci)
 
     if (sprawdzanieAdresataDlaDanegoUzytkownika(adresaci, id) == false)
         {
-            cout << "Podany adresat nie istnieje w Twojej ksiazce adresowej!!!";
-            cout << "Sprawdz poprawny nr id adresata";
+            cout << "Podany adresat nie istnieje w Twojej ksiazce adresowej!!!" << endl;
+            cout << "Sprawdz poprawny nr id adresata" << endl;
             Sleep(5000);
             return void();
         }
@@ -767,20 +777,19 @@ void wczytajUzytkownikaZPliku(vector <Uzytkownik> &uzytkownicy)
     }
 }
 
-void wczytajOknoLogowania(int idUzytkownika)
+void wczytajOknoLogowania(int idUzytkownika, string login)
 {
     vector <Osoba> osoby;
     vector <Adresat> adresaci;
     wczytajOsobeZPliku(osoby);
     kopiujKsiazkeAdresowa(osoby);
-    wczytajOsobyAdresataZPliku(adresaci, idUzytkownika);
-
+    wczytajOsobyUzytkownikaZPliku(adresaci, idUzytkownika);
     char wybor;
 
     while(true)
     {
         system("cls");
-        cout << ">>> MENU UZYTKOWNIKA <<<" << endl;
+        cout << ">>> MENU UZYTKOWNIKA " << login << " <<<" << endl;
         cout << "1.Dodaj osobe" << endl;
         cout << "2.Wyszukaj osobe po imieniu" << endl;
         cout << "3.Wyszukaj osobe po nazwisku" << endl;
@@ -798,7 +807,7 @@ void wczytajOknoLogowania(int idUzytkownika)
             dodajOsoby(osoby, idUzytkownika);
             wczytajOsobeZPliku(osoby);
             kopiujKsiazkeAdresowa(osoby);
-            wczytajOsobyAdresataZPliku(adresaci, idUzytkownika);
+            wczytajOsobyUzytkownikaZPliku(adresaci, idUzytkownika);
             break;
         }
         case '2':
@@ -821,16 +830,18 @@ void wczytajOknoLogowania(int idUzytkownika)
         case '5':
         {
 
-            usuwanieZapisanychOsob(osoby);
+            usuwanieZapisanychOsob(osoby,adresaci, idUzytkownika);
+            wczytajOsobeZPliku(osoby);
+            kopiujKsiazkeAdresowa(osoby);
+            wczytajOsobyUzytkownikaZPliku(adresaci, idUzytkownika);
             break;
         }
         case '6':
         {
 
             edytowanieZapisanychOsob(osoby, adresaci);
-            wczytajOsobeZPliku(osoby);
             kopiujKsiazkeAdresowa(osoby);
-            wczytajOsobyAdresataZPliku(adresaci, idUzytkownika);
+            wczytajOsobyUzytkownikaZPliku(adresaci, idUzytkownika);
             break;
         }
         case '9':
@@ -889,7 +900,7 @@ void logowanieUzytkownika (vector <Uzytkownik> &uzytkownicy)
             cout << login <<" zalogowales sie!!!" << endl;
             Sleep(1000);
             idUzytkownika = sprawdzanieidUzytkownika(uzytkownicy, login, haslo);
-            wczytajOknoLogowania(idUzytkownika);
+            wczytajOknoLogowania(idUzytkownika, login);
             return void();
         }
     }
